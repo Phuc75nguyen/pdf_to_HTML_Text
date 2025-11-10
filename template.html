@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Báo cáo Đặt phòng - {{ BookingID }}</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 20px; background: #f4f4f4; }
+        .container { max-width: 800px; margin: auto; background: #fff; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .header { background: #007bff; color: white; padding: 20px; border-radius: 8px 8px 0 0; }
+        .header h1 { margin: 0; }
+        .content { padding: 20px; }
+        .section { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
+        .section h2 { color: #333; }
+        .grid { display: grid; grid-template-columns: 1fr 2fr; gap: 10px; }
+        .grid strong { color: #555; }
+        .billing { background: #f9f9f9; padding: 15px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>{% if BookingID %}{{ BookingID }}{% else %}Không rõ ID{% endif %}</h1>
+            <p>Trạng thái: <strong>{{ Status_booking_Reservation }}</strong></p>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <h2>Thông tin Khách hàng</h2>
+                <div class="grid">
+                    <strong>Họ tên:</strong> <span>{{ Customer_First_Name }} {{ Customer_Last_Name }}</span>
+                    <strong>Email:</strong> <span>{{ Email_Customer }}</span>
+                    <strong>Ngày đặt:</strong> <span>{{ Booked_on }}</span>
+                    <strong>Đã trả trước:</strong> <span>{% if Has_Prepaid %}Có{% else %}Không{% endif %}</span>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Chi tiết Lưu trú</h2>
+                <div class="grid">
+                    <strong>Check-in:</strong> <span>{{ Check_in }}</span>
+                    <strong>Check-out:</strong> <span>{{ Check_out }}</span>
+                    <strong>Phòng:</strong> <span>{{ Room_Type_Code }}</span>
+                    <strong>Người lớn:</strong> <span>{{ Occupancy_Adult }}</span>
+                    <strong>Trẻ em:</strong> <span>{{ Occupancy_Childrent }}</span>
+                    <strong>Yêu cầu đặc biệt:</strong> <span>{{ Special_Request }}</span>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Chi tiết Thanh toán</h2>
+                <div class="grid">
+                    <strong>Tổng Booking:</strong> <span>{{ Total_Booking }}</span>
+                    <strong>Thu từ Expedia:</strong> <span>{{ Amount_to_Charge_Expedia }}</span>
+                </div>
+                
+                {% if Billing_Details %}
+                <div class="billing">
+                    <h4>Thẻ ảo (Virtual Card)</h4>
+                    <div class="grid">
+                        <strong>Số thẻ:</strong> <span>{{ Billing_Details.Card_Number }}</span>
+                        <strong>Kích hoạt:</strong> <span>{{ Billing_Details.Activation_Date }}</span>
+                        <strong>Hết hạn:</strong> <span>{{ Billing_Details.Expiration_Date }}</span>
+                        <strong>Code:</strong> <span>{{ Billing_Details.Validation_Code }}</span>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
