@@ -11,7 +11,7 @@ class PdfExtractorApp:
     
     def __init__(self, root):
         self.root = root
-        self.root.title("PDF Extractor (Dự án PDF to HTML/Text)")
+        self.root.title("PDF to HTML/Text Tool)")
         self.root.geometry("700x550") # Kích thước cửa sổ
         
         # Danh sách để lưu các đường dẫn file đã chọn
@@ -150,17 +150,18 @@ class PdfExtractorApp:
                 
                 # --- PHẦN LÕI LOGIC THẬT ---
                 # Gọi "bộ não" parser.py của chúng ta
-                # Thay vì time.sleep(1)
                 
-                json_file, html_file = parser.process_pdf(filepath)
+                # [THAY ĐỔI] Nhận về txt_file thay vì json_file
+                txt_file, html_file = parser.process_pdf(filepath)
                 
                 # -----------------------------
                 
-                if json_file:
-                    self.log_message(f"    -> XUẤT FILE: {os.path.basename(json_file)}")
+                # [THAY ĐỔI] Log file .txt
+                if txt_file:
+                    self.log_message(f"    -> XUẤT FILE: {os.path.basename(txt_file)}")
                 if html_file:
                     self.log_message(f"    -> XUẤT FILE: {os.path.basename(html_file)}")
-                if not json_file and not html_file:
+                if not txt_file and not html_file:
                     self.log_message(f"    -> LỖI: Không thể xử lý {filename}")
 
             self.log_message(f"=== ĐÃ XỬ LÝ XONG {total_files}/{total_files} file ===")
@@ -169,9 +170,7 @@ class PdfExtractorApp:
             # Gửi lỗi về log chính
             import traceback
             error_details = traceback.format_exc()
-            self.log_message(f"LỖI NGHIÊM TRỌNG TRONG LUỒNG: {e}\n{error_details}")
-            # Vẫn nên hiện messagebox vì đây là lỗi nghiêm trọng
-            # Nhưng phải gọi nó một cách an toàn
+            self.log_message(f"Lỗi nghiêm trọng TRONG LUỒNG: {e}\n{error_details}")
             self.root.after(0, lambda: messagebox.showerror("Lỗi", f"Đã xảy ra lỗi nghiêm trọng: {e}"))
         
         finally:
