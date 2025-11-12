@@ -1,7 +1,7 @@
 import pdfplumber
 import os
 
-pdf_filename = 'Agoda_597070231.pdf'
+pdf_filename = 'Inbox - ota-booking - Outlook.pdf'
 
 if not os.path.exists(pdf_filename):
     print(f"Lỗi: Không tìm thấy file '{pdf_filename}'.")
